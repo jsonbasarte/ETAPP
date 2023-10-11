@@ -7,11 +7,16 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [react(), mkcert()],
     server: {
-      port: 3000,
+      port: 3001,
       https: true,
       strictPort: true,
       proxy: {
         "/api": {
+          target: env.VITE_API_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+        "/swagger": {
           target: env.VITE_API_URL,
           changeOrigin: true,
           secure: false,
