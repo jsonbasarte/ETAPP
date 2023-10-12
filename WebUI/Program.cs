@@ -1,3 +1,4 @@
+using AccountingSystem.WebUI;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddWebUIServices();
 builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
@@ -31,7 +33,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors();
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyOrigin();
+    options.AllowAnyHeader();
+});
 
 
 app.MapControllerRoute(

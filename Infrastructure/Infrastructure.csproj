@@ -18,8 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Identity\Models\Login\" />
-  </ItemGroup>
-
 </Project>
