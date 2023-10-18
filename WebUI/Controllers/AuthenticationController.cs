@@ -112,9 +112,9 @@ namespace WebUI.Controllers
             } else
             {
                 return StatusCode(
-             StatusCodes.Status500InternalServerError,
-             new Response { Status = "Error", Message = "User doesn't exist." }
-         );
+                    StatusCodes.Status500InternalServerError,
+                        new Response { Status = "Error", Message = "User doesn't exist." }
+                   );
             }
         }
 
