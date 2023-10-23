@@ -1,4 +1,6 @@
 ﻿
+using ETAPP.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +10,17 @@ namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-          public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private readonly IMediator _mediator;
+          public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options)
         {
-
+            _mediator = mediator;
         }
+
+        public virtual DbSet<Categories> Category => Set<Categories>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
             SeedRoles(modelBuilder);
         }
@@ -25,6 +31,13 @@ namespace Infrastructure.Persistence
                     new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
                     new IdentityRole() { Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
             );
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            await _mediator.DispatchDomainEvents(this);
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

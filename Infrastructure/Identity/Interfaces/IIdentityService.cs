@@ -1,5 +1,6 @@
 ﻿
 
+using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Models.Login;
 using Infrastructure.Identity.Models.SignUp;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Infrastructure.Identity.Interfaces;
 public interface IIdentityService
 {
-    Task<IActionResult> Login(LoginModel loginModel);
+    Task<IActionResult> LoginUser(LoginModel loginModel);
 
-    Task<IActionResult> Register(RegisterUser registerModel, string role);
+    Task<Response> RegisterUser(RegisterUser registerModel, string role);
 }
 

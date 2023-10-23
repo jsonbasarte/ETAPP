@@ -1,4 +1,5 @@
 ﻿using ETAPP.Application.Common.Interfaces;
+using Infrastructure.Identity.Interfaces;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Models.Login;
 using Infrastructure.Identity.Models.SignUp;
@@ -19,13 +20,15 @@ namespace WebUI.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IIdentityService _identityService;
 
         public AuthenticationController(
             UserManager<IdentityUser> userManager, 
             RoleManager<IdentityRole> roleManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
-            ICurrentUserService currentUserService
+            ICurrentUserService currentUserService,
+            IIdentityService identityService
          )
         {
             _userManager = userManager;
@@ -33,52 +36,16 @@ namespace WebUI.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
             _currentUserService = currentUserService;
+            _identityService = identityService;
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
         {
-            var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
+            var response = await _identityService.RegisterUser(registerUser, role);
 
-            if (userExist != null) 
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new Response { Status = "Error", Message = "User already exists." });
-            };
-
-            IdentityUser user = new()
-            {
-                Email = registerUser.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerUser.Username
-            };
-
-
-            if (await _roleManager.RoleExistsAsync(role))
-            {
-                var result = await _userManager.CreateAsync(user, registerUser.Password);
-                if (!result.Succeeded)
-                {
-                    return StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Error", Message = "User failed to create." }
-                );
-                   
-                }
-                await _userManager.AddToRoleAsync(user, role);
-
-                return StatusCode(
-                       StatusCodes.Status201Created,
-                       new Response { Status = "Success", Message = "User successfully created." }
-                );
-
-            } else
-            {
-                return StatusCode(
-                  StatusCodes.Status500InternalServerError,
-                  new Response { Status = "Error", Message = "Role does not exist." }
-              );
-            }
+            return StatusCode(response.StatusCode, new Response { Status = response.Status, Message = response.Message });
         }
 
 
