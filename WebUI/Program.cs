@@ -1,10 +1,12 @@
 using AccountingSystem.WebUI;
+using Application;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 builder.Services.AddOpenApiDocument();

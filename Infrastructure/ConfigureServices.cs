@@ -1,4 +1,5 @@
 ﻿
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,7 +19,7 @@ public static class ConfigureServices
                       builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
 
-         services.AddDefaultIdentity<IdentityUser>()
+         services.AddDefaultIdentity<ApplicationUser>()
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

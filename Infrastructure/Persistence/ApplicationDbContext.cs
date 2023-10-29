@@ -1,5 +1,6 @@
 ﻿
 using ETAPP.Domain.Entities;
+using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Reflection;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly IMediator _mediator;
           public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options)
