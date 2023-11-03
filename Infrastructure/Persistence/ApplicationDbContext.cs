@@ -1,6 +1,6 @@
 ﻿
+using Application.Common.Interfaces;
 using ETAPP.Domain.Entities;
-using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
     {
         private readonly IMediator _mediator;
           public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options)
@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence
             _mediator = mediator;
         }
 
-        public virtual DbSet<Categories> Category => Set<Categories>();
+        public virtual DbSet<Categories> Categories => Set<Categories>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 

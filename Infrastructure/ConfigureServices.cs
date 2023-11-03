@@ -1,5 +1,5 @@
 ﻿
-using Infrastructure.Identity;
+using Application.Common.Interfaces;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,8 +18,9 @@ public static class ConfigureServices
                   options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                       builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
+       services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-         services.AddDefaultIdentity<ApplicationUser>()
+         services.AddDefaultIdentity<IdentityUser>()
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

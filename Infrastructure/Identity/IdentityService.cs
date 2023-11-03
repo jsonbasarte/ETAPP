@@ -13,14 +13,14 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
 
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public IdentityService(
-           UserManager<ApplicationUser> userManager,
+           UserManager<IdentityUser> userManager,
            RoleManager<IdentityRole> roleManager,
-           SignInManager<ApplicationUser> signInManager
+           SignInManager<IdentityUser> signInManager
          )
         {
             _userManager = userManager;
@@ -42,7 +42,7 @@ namespace Infrastructure.Identity
                 return new Response { Status = "Error", Message = "User already exists.", StatusCode = StatusCodes.Status302Found };
             };
 
-            ApplicationUser user = new()
+            IdentityUser user = new()
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
