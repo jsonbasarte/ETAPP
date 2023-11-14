@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity.Interfaces;
+﻿using ETAPP.Infrastructure.Identity;
+using Infrastructure.Identity.Interfaces;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Models.Login;
 using Infrastructure.Identity.Models.SignUp;
@@ -13,14 +14,14 @@ namespace Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
 
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public IdentityService(
-           UserManager<IdentityUser> userManager,
-           RoleManager<IdentityRole> roleManager,
-           SignInManager<IdentityUser> signInManager
+           UserManager<ApplicationUser> userManager,
+           SignInManager<ApplicationUser> signInManager,
+           RoleManager<ApplicationRole> roleManager
          )
         {
             _userManager = userManager;
@@ -42,11 +43,13 @@ namespace Infrastructure.Identity
                 return new Response { Status = "Error", Message = "User already exists.", StatusCode = StatusCodes.Status302Found };
             };
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.Username
+                UserName = registerModel.Username,
+                FirstName = "Test",
+                LastName = "User"
             };
 
 

@@ -1,4 +1,6 @@
 ﻿using ETAPP.Application.Common.Interfaces;
+using ETAPP.Infrastructure.Identity;
+using Infrastructure.Identity;
 using Infrastructure.Identity.Interfaces;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Models.Login;
@@ -15,17 +17,17 @@ namespace WebUI.Controllers
 {
     public class AuthenticationController : ApiControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;
 
         public AuthenticationController(
-            UserManager<IdentityUser> userManager, 
-            RoleManager<IdentityRole> roleManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager,
             IConfiguration configuration,
             ICurrentUserService currentUserService,
             IIdentityService identityService
@@ -90,13 +92,13 @@ namespace WebUI.Controllers
         [Route("current-user")]
         public async Task<CurrentUserModel> GetCurrentUser()
         {
-            var uid = _currentUserService.UserId!.Value;
-            var user = await _userManager.Users.FirstAsync(u => u.Id == uid.ToString());
+            //var uid = _currentUserService.UserId!.Value;
+            //var user = await _userManager.Users.FirstAsync(u => u.Id == uid.ToString());
 
             return new CurrentUserModel
             {
-                Id = uid,
-                Username = user.UserName,
+                Id = 1,
+                Username = "Shion Jay",
             };
         }
     }

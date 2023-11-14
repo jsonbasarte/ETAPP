@@ -1,5 +1,7 @@
 ﻿
 using Application.Common.Interfaces;
+using ETAPP.Infrastructure.Identity;
+using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,11 +22,9 @@ public static class ConfigureServices
 
        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-         services.AddDefaultIdentity<IdentityUser>()
-            .AddRoles<IdentityRole>()
+         services.AddDefaultIdentity<ApplicationUser>()
+            .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-
-        //services.AddMediatR(typeof(IMediator));
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
@@ -34,6 +34,7 @@ public static class ConfigureServices
             });
 
         services.AddAuthorization();
+
         return services;
     }
 }

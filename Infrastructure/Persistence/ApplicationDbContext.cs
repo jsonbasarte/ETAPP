@@ -1,15 +1,18 @@
 ﻿
 using Application.Common.Interfaces;
 using ETAPP.Domain.Entities;
+using ETAPP.Infrastructure.Identity;
+using Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>, IApplicationDbContext
     {
         private readonly IMediator _mediator;
           public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMediator mediator) : base(options)
@@ -28,9 +31,11 @@ namespace Infrastructure.Persistence
         
         private void SeedRoles(ModelBuilder builder)
         {
-            builder.Entity<IdentityRole>().HasData(
-                    new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                    new IdentityRole() { Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
+            //The seed entity for entity type 'ApplicationRole' cannot be added because a non - zero value 
+            //is required for property 'Id'.Consider providing a negative value to avoid collisions with non - seed data.
+            builder.Entity<ApplicationRole>().HasData(
+                    new ApplicationRole() { Id = -1,  Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                    new ApplicationRole() { Id = -2,  Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
             );
         }
 

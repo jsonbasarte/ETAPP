@@ -32,10 +32,10 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
         _mapper = mapper;
     }
 
-    public Task<PaginatedList<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
         IQueryable<Categories> q = _dbContext.Categories;
 
-        return q.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider).PaginatedListAsync(1, 50);
+        return await q.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider).PaginatedListAsync(1, 50);
     }
 }
