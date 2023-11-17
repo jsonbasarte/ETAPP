@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using ETAPP.Infrastructure.Identity;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,8 @@ public static class ConfigureServices
          services.AddDefaultIdentity<ApplicationUser>()
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+        services.AddTransient<IDateTime, DateTimeService>();
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>

@@ -21,7 +21,7 @@ namespace Infrastructure.Persistence
             _mediator = mediator;
         }
 
-        public virtual DbSet<ExpenseEntry> ExpenseEntries => Set<ExpenseEntry>();
+        public virtual DbSet<Expense> ExpenseEntries => Set<Expense>();
         public DbSet<Categories> Categories => Set<Categories>();
         public DbSet<PaymentType> PaymentType => Set<PaymentType>();
 

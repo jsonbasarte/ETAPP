@@ -10,7 +10,7 @@ public interface IApplicationDbContext
 
     DbSet<PaymentType> PaymentType { get; }
 
-    DbSet<ExpenseEntry> ExpenseEntries { get; }
+    DbSet<Expense> ExpenseEntries { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

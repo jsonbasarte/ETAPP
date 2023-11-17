@@ -27,7 +27,7 @@ public class CreatePaymentTypeCommandHandler : IRequestHandler<CreatePaymentType
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return 1;
+        return paymentType.Id;
     }
 }
 

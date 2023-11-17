@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class ExpenseConfiguration : IEntityTypeConfiguration<ExpenseEntry>
+    public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
     {
-        public void Configure(EntityTypeBuilder<ExpenseEntry> builder)
+        public void Configure(EntityTypeBuilder<Expense> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Description).IsRequired();

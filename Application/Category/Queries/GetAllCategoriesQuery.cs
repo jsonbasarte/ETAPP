@@ -15,10 +15,8 @@ public class CategoryDto : IMapFrom<Categories>
     public string Name { get; set; }
 }
 
-public class GetAllCategoriesQuery : IRequest<IEnumerable<CategoryDto>>
-{
+public class GetAllCategoriesQuery : IRequest<IEnumerable<CategoryDto>>{}
 
-}
 public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, IEnumerable<CategoryDto>> 
 {
     private readonly IApplicationDbContext _dbContext;
