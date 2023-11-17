@@ -22,8 +22,11 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = new Categories { Name = request.Name };
+
         _dbContext.Categories.Add(category);
+
         await _dbContext.SaveChangesAsync(cancellationToken);
+
         return category.Id;
     }
 }

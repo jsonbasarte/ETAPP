@@ -15,13 +15,11 @@ public class CategoryDto : IMapFrom<Categories>
     public string Name { get; set; }
 }
 
-public class GetAllCategoriesQuery : IRequest<PaginatedList<CategoryDto>>
+public class GetAllCategoriesQuery : IRequest<IEnumerable<CategoryDto>>
 {
-    //public string? Name { set; get; }
-    //public int Page { set; get; }
-    //public int PageSize { set; get; }
+
 }
-public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, PaginatedList<CategoryDto>> 
+public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, IEnumerable<CategoryDto>> 
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -32,11 +30,11 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<Categories> q = _dbContext.Categories;
+        var result = await _dbContext.Categories.ProjectToListAsync<CategoryDto>(_mapper.ConfigurationProvider);
 
-        return await q.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider).PaginatedListAsync(1, 50);
+        return result;
     }
 }
  

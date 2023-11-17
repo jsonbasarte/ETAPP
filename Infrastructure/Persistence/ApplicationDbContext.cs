@@ -21,8 +21,9 @@ namespace Infrastructure.Persistence
             _mediator = mediator;
         }
 
-        public virtual DbSet<Categories> Categories => Set<Categories>();
-        public virtual DbSet<PaymentMethod> PaymentMethod => Set<PaymentMethod>();
+        public virtual DbSet<ExpenseEntry> ExpenseEntries => Set<ExpenseEntry>();
+        public DbSet<Categories> Categories => Set<Categories>();
+        public DbSet<PaymentType> PaymentType => Set<PaymentType>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 

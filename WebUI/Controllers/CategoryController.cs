@@ -16,7 +16,7 @@ public class CategoryController : ApiControllerBase
     }
 
     [HttpGet]
-    public async Task<PaginatedList<CategoryDto>> GetAll()
+    public async Task<IEnumerable<CategoryDto>> GetAll()
     {
         return await Mediator.Send(new GetAllCategoriesQuery());
     }

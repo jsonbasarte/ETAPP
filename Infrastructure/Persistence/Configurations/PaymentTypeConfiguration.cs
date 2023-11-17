@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod>
+public class PaymentTypeConfiguration : IEntityTypeConfiguration<PaymentType>
 {
-    public void Configure(EntityTypeBuilder<PaymentMethod> builder)
+    public void Configure(EntityTypeBuilder<PaymentType> builder)
     {
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Name).HasMaxLength(200);

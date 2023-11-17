@@ -20,7 +20,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(e => e.Date).IsRequired();
             builder.HasOne<ApplicationUser>().WithMany().HasForeignKey(d => d.UserId);
             builder.HasOne(e => e.Category).WithMany().HasForeignKey(d => d.CategoryId);
-            builder.HasOne(e => e.PaymentMethod).WithMany().HasForeignKey(d => d.PaymentMethodId);
+            builder.HasOne(e => e.PaymentType).WithMany().HasForeignKey(d => d.PaymentMethodId);
         }
     }
 }
