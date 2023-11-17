@@ -11,6 +11,6 @@ public class ExpenseEntry
     public string Description { get; set; }
     public decimal Amount { get; set; }
     public DateTime  Date { get; set; }
-    public Categories Categories { get; set; } = null;
+    public Categories Category { get; set; } = null;
     public PaymentMethod PaymentMethod { get; set; } = null;
 }

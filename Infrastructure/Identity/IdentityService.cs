@@ -64,10 +64,7 @@ namespace Infrastructure.Identity
                 await _userManager.AddToRoleAsync(user, role);
 
                 return new Response { Status = "Success", Message = "User successfully created.", StatusCode = StatusCodes.Status201Created };
-            }
-
-            else
-            {
+            } else {
                 return new Response
                 {
                     Status = "Error",

@@ -39,3 +39,4 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
         return await q.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider).PaginatedListAsync(1, 50);
     }
 }
+ 

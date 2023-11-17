@@ -1,5 +1,6 @@
 ﻿
 using Application.Common.Interfaces;
+using Domain.Entities;
 using ETAPP.Domain.Entities;
 using ETAPP.Infrastructure.Identity;
 using Infrastructure.Identity;
@@ -21,6 +22,7 @@ namespace Infrastructure.Persistence
         }
 
         public virtual DbSet<Categories> Categories => Set<Categories>();
+        public virtual DbSet<PaymentMethod> PaymentMethod => Set<PaymentMethod>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 
@@ -28,14 +30,14 @@ namespace Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
             SeedRoles(modelBuilder);
         }
-        
+
         private void SeedRoles(ModelBuilder builder)
         {
             //The seed entity for entity type 'ApplicationRole' cannot be added because a non - zero value 
             //is required for property 'Id'.Consider providing a negative value to avoid collisions with non - seed data.
             builder.Entity<ApplicationRole>().HasData(
-                    new ApplicationRole() { Id = -1,  Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                    new ApplicationRole() { Id = -2,  Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
+                    new ApplicationRole() { Id = -1, Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                    new ApplicationRole() { Id = -2, Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
             );
         }
 
