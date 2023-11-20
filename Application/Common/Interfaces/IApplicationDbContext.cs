@@ -8,7 +8,7 @@ public interface IApplicationDbContext
 {
     DbSet<Categories> Categories { get; }
 
-    DbSet<PaymentType> PaymentType { get; }
+    DbSet<PaymentTypes> PaymentType { get; }
 
     DbSet<Expense> ExpenseEntries { get; }
 

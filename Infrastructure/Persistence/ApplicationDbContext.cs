@@ -23,7 +23,7 @@ namespace Infrastructure.Persistence
 
         public virtual DbSet<Expense> ExpenseEntries => Set<Expense>();
         public DbSet<Categories> Categories => Set<Categories>();
-        public DbSet<PaymentType> PaymentType => Set<PaymentType>();
+        public DbSet<PaymentTypes> PaymentType => Set<PaymentTypes>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 

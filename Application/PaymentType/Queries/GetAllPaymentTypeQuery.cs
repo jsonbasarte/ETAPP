@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using Application.Category.Queries;
-using Domain.Entities;
 using ETAPP.Application.Common.Mappings;
 using Application.Common.Interfaces;
 using AutoMapper;
+using Domain.Entities;
 
 namespace Application.PaymentMethod.Queries;
 
-public class PaymentTypeDto : IMapFrom<PaymentType>
+public class PaymentTypeDto : IMapFrom<PaymentTypes>
 {
     public int Id { get; set; }
     public string Name { get; set; }

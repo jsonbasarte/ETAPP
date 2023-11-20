@@ -21,7 +21,7 @@ public class CreatePaymentTypeCommandHandler : IRequestHandler<CreatePaymentType
 
     public async Task<int> Handle(CreatePaymentTypeCommand request, CancellationToken cancellationToken)
     {
-        var paymentType = new PaymentType { Name = request.Name };
+        var paymentType = new PaymentTypes { Name = request.Name };
         
         _dbContext.PaymentType.Add(paymentType);
 

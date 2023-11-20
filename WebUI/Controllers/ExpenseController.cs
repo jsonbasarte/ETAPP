@@ -12,16 +12,25 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<int> Create(CreateExpenseEntryCommand command)
         {
-            var result = await Mediator.Send(command);
-            return result;
+            return await Mediator.Send(command);
         }
 
         [HttpGet]
         public async Task<IEnumerable<ExpenseDto>> GetAll()
         {
-            var result = await Mediator.Send(new GetAllExpenseQuery());
+            return await Mediator.Send(new GetAllExpenseQuery()); ;
+        }
 
-            return result;
+        [HttpPut]
+        public async Task<bool> Update(UpdateExpenseEntryCommand command)
+        {
+            return await Mediator.Send(command);
+        }
+
+        [HttpDelete]
+        public async Task<(bool State, string Message)> Delete(DeleteExpenseEntryCommand command)
+        {
+            return await Mediator.Send(command);
         }
     }
 }

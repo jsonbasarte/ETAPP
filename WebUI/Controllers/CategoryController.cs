@@ -20,4 +20,20 @@ public class CategoryController : ApiControllerBase
     {
         return await Mediator.Send(new GetAllCategoriesQuery());
     }
+
+    [HttpPut]
+    public async Task<bool> Update(UpdateCategoryCommand command)
+    {
+        var result = await Mediator.Send(command);
+
+        return result;
+    }
+
+    [HttpDelete]
+    public async Task<(bool State, string Message)> Delete(DeleteCategoryCommand command)
+    {
+        var result = await Mediator.Send(command);
+
+        return result;
+    }
 }
