@@ -27,7 +27,7 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
 
     public async Task<int> Handle(CreateExpenseEntryCommand request, CancellationToken cancellationToken)
     {
-        var expense = new Expense
+        var expense = new TransactionDetails
         {
             Description = request.Description,
             Date = _dateTime.Now,
@@ -37,7 +37,7 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
             PaymentMethodId = request.PaymentMethodId,
         };
 
-        _dbContext.ExpenseEntries.Add(expense);
+        _dbContext.TransactionDetails.Add(expense);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

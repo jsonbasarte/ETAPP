@@ -25,9 +25,9 @@ public class DeleteExpenseEntryCommandHandler : IRequestHandler<DeleteExpenseEnt
 
     public async Task<(bool State, string Message)> Handle(DeleteExpenseEntryCommand request, CancellationToken cancellationToken)
     {
-        var expense = await _dbContext.ExpenseEntries.FirstAsync(e => e.Id == request.Id);
+        var expense = await _dbContext.TransactionDetails.FirstAsync(e => e.Id == request.Id);
 
-         _dbContext.ExpenseEntries.Remove(expense);
+         _dbContext.TransactionDetails.Remove(expense);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

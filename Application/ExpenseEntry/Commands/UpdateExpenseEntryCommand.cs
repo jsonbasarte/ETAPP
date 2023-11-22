@@ -24,7 +24,7 @@ public class UpdateExpenseEntryCommandHandler : IRequestHandler<UpdateExpenseEnt
 
     public async Task<bool> Handle(UpdateExpenseEntryCommand request, CancellationToken cancellationToken)
     {
-        var expense = await _dbContext.ExpenseEntries.FirstAsync(e => e.Id== request.Id);
+        var expense = await _dbContext.TransactionDetails.FirstAsync(e => e.Id== request.Id);
 
         expense.Description = request.Description;
         expense.Amount = request.Amount;

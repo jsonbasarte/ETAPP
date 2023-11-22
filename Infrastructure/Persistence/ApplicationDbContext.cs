@@ -21,9 +21,10 @@ namespace Infrastructure.Persistence
             _mediator = mediator;
         }
 
-        public virtual DbSet<Expense> ExpenseEntries => Set<Expense>();
+        public virtual DbSet<TransactionDetails> TransactionDetails => Set<TransactionDetails>();
         public DbSet<Categories> Categories => Set<Categories>();
-        public DbSet<PaymentTypes> PaymentType => Set<PaymentTypes>();
+
+        public DbSet<Wallet> Wallet => Set<Wallet>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 
@@ -37,8 +38,8 @@ namespace Infrastructure.Persistence
             //The seed entity for entity type 'ApplicationRole' cannot be added because a non - zero value 
             //is required for property 'Id'.Consider providing a negative value to avoid collisions with non - seed data.
             builder.Entity<ApplicationRole>().HasData(
-                    new ApplicationRole() { Id = -1, Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-                    new ApplicationRole() { Id = -2, Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
+                    new ApplicationRole() { Id = 1, Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
+                    new ApplicationRole() { Id = 2, Name = "User", ConcurrencyStamp = "2", NormalizedName = "User" }
             );
         }
 

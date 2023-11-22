@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.ExpenseEntry.Queries;
 
-public class ExpenseDto : IMapFrom<Expense>
+public class ExpenseDto : IMapFrom<TransactionDetails>
 {
     public int Id { get; set; }
     public string Description { get; set; }
@@ -28,7 +28,7 @@ public class GetAllExpenseQueryHandler : IRequestHandler<GetAllExpenseQuery, IEn
 
     public async Task<IEnumerable<ExpenseDto>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
     {
-        var result = await _dbContext.ExpenseEntries.ProjectToListAsync<ExpenseDto>(_mapper.ConfigurationProvider);
+        var result = await _dbContext.TransactionDetails.ProjectToListAsync<ExpenseDto>(_mapper.ConfigurationProvider);
         return result;
     }
 }

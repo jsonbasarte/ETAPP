@@ -8,9 +8,9 @@ public interface IApplicationDbContext
 {
     DbSet<Categories> Categories { get; }
 
-    DbSet<PaymentTypes> PaymentType { get; }
+    DbSet<TransactionDetails> TransactionDetails { get; }
 
-    DbSet<Expense> ExpenseEntries { get; }
+    DbSet<Wallet> Wallet { get;  }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
