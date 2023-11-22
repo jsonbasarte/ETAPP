@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.ExpenseEntry.Commands;
 
@@ -11,7 +12,8 @@ public class CreateExpenseEntryCommand: IRequest<int>
     public DateTime? Date {  get; set; }
     public int UserId { get; set; }
     public int CategoryId { get; set; }
-    public int PaymentMethodId { get; set; }    
+    public int WalletId { get; set; }
+    public TransactionType TransactionType { get; set; }
 }
 
 public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEntryCommand, int>
@@ -27,15 +29,26 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
 
     public async Task<int> Handle(CreateExpenseEntryCommand request, CancellationToken cancellationToken)
     {
-        var expense = new TransactionDetails
+        //IQueryable<Wallet> q = _dbContext.Wallet;
+
+        //q = q.Where(w => w.UserId == request.UserId);
+
+        //q = q.Where(w => w.Id == request.WalletId);
+
+       var userWallet = await _dbContext.Wallet.FirstAsync(w => w.UserId == request.UserId && w.Id == request.WalletId);
+
+     var expense = new TransactionDetails
         {
             Description = request.Description,
             Date = _dateTime.Now,
             Amount = request.Amount,
             UserId = request.UserId,
             CategoryId = request.CategoryId,
-            PaymentMethodId = request.PaymentMethodId,
+            WalletId = request.WalletId,
+            TransactionType = request.TransactionType,
         };
+
+        userWallet.Balance = userWallet.Balance - request.Amount;
 
         _dbContext.TransactionDetails.Add(expense);
 

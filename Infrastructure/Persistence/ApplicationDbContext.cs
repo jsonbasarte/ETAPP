@@ -22,9 +22,8 @@ namespace Infrastructure.Persistence
         }
 
         public virtual DbSet<TransactionDetails> TransactionDetails => Set<TransactionDetails>();
+        public virtual DbSet<Wallet> Wallet => Set<Wallet>();
         public DbSet<Categories> Categories => Set<Categories>();
-
-        public DbSet<Wallet> Wallet => Set<Wallet>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         { 

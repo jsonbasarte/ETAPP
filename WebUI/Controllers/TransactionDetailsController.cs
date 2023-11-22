@@ -7,7 +7,7 @@ namespace WebUI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExpenseController : ApiControllerBase
+    public class TransactionDetailsController : ApiControllerBase
     {
         [HttpPost]
         public async Task<int> Create(CreateExpenseEntryCommand command)
