@@ -8,7 +8,7 @@ namespace Application.ExpenseEntry.Commands;
 public class CreateExpenseEntryCommand: IRequest<int>
 {
     public string Description { get; set; }
-    public decimal Amount { get; set; }
+    public decimal Amount { get; set; }  
     public DateTime? Date {  get; set; }
     public int UserId { get; set; }
     public int CategoryId { get; set; }
@@ -35,7 +35,7 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
 
         //q = q.Where(w => w.Id == request.WalletId);
 
-       var userWallet = await _dbContext.Wallet.FirstAsync(w => w.UserId == request.UserId && w.Id == request.WalletId);
+     var userWallet = await _dbContext.Wallet.FirstAsync(w => w.UserId == request.UserId && w.Id == request.WalletId);
 
      var expense = new TransactionDetails
         {
