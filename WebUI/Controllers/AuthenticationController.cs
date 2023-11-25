@@ -92,14 +92,14 @@ namespace WebUI.Controllers
         [Route("current-user")]
         public async Task<CurrentUserModel> GetCurrentUser()
         {
-            //var uid = _currentUserService.UserId!.Value;
-            //var user = await _userManager.Users.FirstAsync(u => u.Id == uid.ToString());
-
-            return new CurrentUserModel
-            {
-                Id = 1,
-                Username = "Shion Jay",
-            };
+            var uid = _currentUserService.UserId!.Value;
+            var user = await _userManager.Users.FirstAsync(u => u.Id == uid);
+            return user;
+            //return new CurrentUserModel
+            //{
+            //    Id = 1,
+            //    Username = "Shion Jay",
+            //};
         }
     }
 }

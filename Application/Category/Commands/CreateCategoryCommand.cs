@@ -1,6 +1,7 @@
 ﻿
 using Application.Common.Interfaces;
 using ETAPP.Domain.Entities;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Category.Commands;
@@ -28,5 +29,13 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return category.Id;
+    }
+}
+
+public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
+{
+    public CreateCategoryCommandValidator()
+    {
+        RuleFor(d => d.Name).NotEmpty();
     }
 }
