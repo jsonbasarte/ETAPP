@@ -10,7 +10,7 @@ public static class ConfigureServices
     public static IServiceCollection AddWebUIServices(this IServiceCollection services)
     {
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-        services.AddScoped<IIdentityService, IdentityService>();
+        //services.AddScoped<IIdentityService, IdentityService>();
         services.AddHttpContextAccessor();
 
         return services;

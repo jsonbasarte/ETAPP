@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using ETAPP.Infrastructure.Identity;
 using Infrastructure.Identity;
+using Infrastructure.Identity.Interfaces;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using MediatR;
@@ -28,12 +29,25 @@ public static class ConfigureServices
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddTransient<IDateTime, DateTimeService>();
+        services.AddTransient<IIdentityService, IdentityService>();
+
+        //services.AddSession(options =>
+        //{
+        //    // Set a short timeout for easy testing
+        //    options.IdleTimeout = TimeSpan.FromMinutes(20);
+        //    options.Cookie.HttpOnly = true;
+
+        //    // Make the session cookie essential
+        //    options.Cookie.IsEssential = true;
+        //});
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
             {
-                opt.LoginPath = "/login";
+                opt.LoginPath = "/api/authentication/login";
                 opt.LogoutPath = "/logout";
+                opt.SlidingExpiration = true;
+                opt.ExpireTimeSpan = TimeSpan.FromHours(12);
             });
 
         services.AddAuthorization();

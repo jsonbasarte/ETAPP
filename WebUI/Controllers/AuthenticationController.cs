@@ -7,6 +7,7 @@ using Infrastructure.Identity.Models.Login;
 using Infrastructure.Identity.Models.SignUp;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,7 @@ namespace WebUI.Controllers
             var response = await _identityService.RegisterUser(registerUser, role);
 
             return StatusCode(response.StatusCode, new Response { Status = response.Status, Message = response.Message });
-        }
+        } 
 
 
         [HttpPost]
@@ -87,11 +88,11 @@ namespace WebUI.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("current-user")]
-        public async Task<CurrentUserModel> GetCurrentUser()
+        public async Task<ApplicationUser> GetCurrentUser()
         {
+            var userClaims = User.Claims.ToList();
             var uid = _currentUserService.UserId!.Value;
             var user = await _userManager.Users.FirstAsync(u => u.Id == uid);
             return user;
