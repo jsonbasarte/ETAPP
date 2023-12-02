@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
-import axios from 'axios'
+import httpHelper from '../services/axios'
 
 const onFinish = async (values: any) => {
-    const response = await axios.post("/api/authentication/login", {
+    const response = await httpHelper.post("/api/authentication/login", {
         username: values.username,
         password: values.password,
-    })
+    });
   console.log('Success:', response);
 }
 
@@ -23,12 +23,18 @@ type FieldType = {
 const Login: React.FC = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
-      const response = await axios.get('/api/authentication/current-user')
+      // const response = await axios.get('/api/authentication/current-user')
+      const response = await httpHelper.get('/api/authentication/current-user');
       console.log('response: ', response)
     }
     getCurrentUser()
   }, [])
   return (
+    <div>
+      <button onClick={async () => {
+        const response = await httpHelper.post("/api/authentication/logout");
+        console.log('response: ', response);
+      }}>Logout</button>
     <Form
       name='basic'
       labelCol={{ span: 8 }}
@@ -68,7 +74,7 @@ const Login: React.FC = () => {
           Submit
         </Button>
       </Form.Item>
-    </Form>
+    </Form></div>
   )
 }
 

@@ -88,6 +88,20 @@ namespace WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return NoContent();
+            } else
+            {
+                return NoContent();
+            }
+        }
+
         [HttpGet]
         [Route("current-user")]
         public async Task<ApplicationUser> GetCurrentUser()
