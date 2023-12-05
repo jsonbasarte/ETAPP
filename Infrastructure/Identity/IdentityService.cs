@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Infrastructure.Identity
@@ -29,9 +30,25 @@ namespace Infrastructure.Identity
             _roleManager = roleManager;
         }
 
-        public Task<IActionResult> LoginUser(LoginModel loginModel)
+        public async Task<string?> GetUserNameAsync(int userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            return user.UserName;
+        }
+
+        public async Task<string> GetUserFullNameAsync(int userId)
+        {
+            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            return $"{user.FirstName} {user.LastName}".Trim();
+        }
+
+        public async Task<string[]> GetAllUserRoles(int userId)
+        {
+            var user = await _userManager.Users.FirstAsync(d => d.Id == userId);
+            var allRoles = await _userManager.GetRolesAsync(user);
+            return allRoles.ToArray();
         }
 
         public async Task<Response> RegisterUser(RegisterUser registerModel, string role)

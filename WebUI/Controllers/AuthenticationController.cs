@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WebUI.Services;
+using WebUI.ViewModels;
 
 namespace WebUI.Controllers
 {
@@ -95,26 +96,28 @@ namespace WebUI.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return NoContent();
+                return Ok();
             } else
             {
-                return NoContent();
+                return BadRequest();
             }
         }
 
         [HttpGet]
         [Route("current-user")]
-        public async Task<ApplicationUser> GetCurrentUser()
+        public async Task<ActionResult<ApplicationUser>> GetCurrentUser()
         {
-            var userClaims = User.Claims.ToList();
             var uid = _currentUserService.UserId!.Value;
+
             var user = await _userManager.Users.FirstAsync(u => u.Id == uid);
-            return user;
-            //return new CurrentUserModel
-            //{
-            //    Id = 1,
-            //    Username = "Shion Jay",
-            //};
+
+            return Ok(new CurrentUserModel
+            {
+                Id = uid,
+                Name = await _identityService.GetUserNameAsync(uid),
+                UserName = await _identityService.GetUserFullNameAsync(uid),
+                Roles = await _identityService.GetAllUserRoles(uid),
+            });
         }
     }
 }

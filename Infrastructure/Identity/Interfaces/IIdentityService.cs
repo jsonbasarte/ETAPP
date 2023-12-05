@@ -9,8 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Infrastructure.Identity.Interfaces;
 public interface IIdentityService
 {
-    Task<IActionResult> LoginUser(LoginModel loginModel);
-
     Task<Response> RegisterUser(RegisterUser registerModel, string role);
+
+    Task<string> GetUserNameAsync(int userId);
+
+    Task<string> GetUserFullNameAsync(int userId);
+
+    Task<string[]> GetAllUserRoles(int userId);
 }
 

@@ -21,14 +21,6 @@ type FieldType = {
 }
 
 const Login: React.FC = () => {
-  useEffect(() => {
-    const getCurrentUser = async () => {
-      // const response = await axios.get('/api/authentication/current-user')
-      const response = await httpHelper.get('/api/authentication/current-user');
-      console.log('response: ', response)
-    }
-    getCurrentUser()
-  }, [])
   return (
     <div>
       <button onClick={async () => {
