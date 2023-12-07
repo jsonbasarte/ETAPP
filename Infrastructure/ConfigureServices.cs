@@ -1,7 +1,6 @@
 ﻿
 using Application.Common.Interfaces;
 using ETAPP.Infrastructure.Identity;
-using Infrastructure.Identity;
 using Infrastructure.Identity.Interfaces;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Identity;
 
 namespace Infrastructure;
 

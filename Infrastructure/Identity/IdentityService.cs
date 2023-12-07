@@ -1,14 +1,11 @@
 ﻿using ETAPP.Infrastructure.Identity;
 using Infrastructure.Identity.Interfaces;
-using Infrastructure.Identity.Models;
-using Infrastructure.Identity.Models.Login;
-using Infrastructure.Identity.Models.SignUp;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Application.Common.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using ETAPP.Application.Common.Models.SignUp;
 
 namespace Infrastructure.Identity
 {
@@ -18,16 +15,22 @@ namespace Infrastructure.Identity
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
+        private IAuthorizationService _authorizationService;
 
         public IdentityService(
            UserManager<ApplicationUser> userManager,
            SignInManager<ApplicationUser> signInManager,
-           RoleManager<ApplicationRole> roleManager
+           RoleManager<ApplicationRole> roleManager,
+           IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
+            IAuthorizationService authorizationService
          )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
+            _authorizationService = authorizationService;
         }
 
         public async Task<string?> GetUserNameAsync(int userId)
@@ -51,7 +54,7 @@ namespace Infrastructure.Identity
             return allRoles.ToArray();
         }
 
-        public async Task<Response> RegisterUser(RegisterUser registerModel, string role)
+        public async Task<Response> RegisterUser(RegisterUserModel registerModel, string role)
         {
             var userExist = await _userManager.FindByEmailAsync(registerModel.Email);
 
@@ -92,5 +95,27 @@ namespace Infrastructure.Identity
             }
         }
 
+        public async Task<bool> IsInRoleAsync(int userId, string role)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+            return user != null && await _userManager.IsInRoleAsync(user, role);
+        }
+
+        public async Task<bool> AuthorizeAsync(int userId, string policyName)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
+
+            var result = await _authorizationService.AuthorizeAsync(principal, policyName);
+
+            return result.Succeeded;
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace Infrastructure.Identity.Models.Login;
+namespace ETAPP.Application.Common.Models.Login;
 
-public class LoginModel
+public class UserLoginModel
 {
     [Required(ErrorMessage = "Username is required.")]
     public string Username { get; set; }

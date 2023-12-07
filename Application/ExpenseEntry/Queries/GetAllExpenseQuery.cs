@@ -36,7 +36,7 @@ public class GetAllExpenseQueryHandler : IRequestHandler<GetAllExpenseQuery, IEn
         var result = await _dbContext.TransactionDetails.ProjectToListAsync<ExpenseDto>(_mapper.ConfigurationProvider);
 
         var list = new List<ExpenseDto>();
-
+        
         foreach (var item in result)
         {
             var wallet = await _dbContext.Wallet.FirstAsync(w => w.Id == item.WalletId);

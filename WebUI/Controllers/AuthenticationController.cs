@@ -2,13 +2,13 @@
 using ETAPP.Infrastructure.Identity;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Interfaces;
-using Infrastructure.Identity.Models;
-using Infrastructure.Identity.Models.Login;
-using Infrastructure.Identity.Models.SignUp;
+using Application.Common.Models;
+using ETAPP.Application.Common.Models.Login;
+using ETAPP.Application.Common.Models.SignUp;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -45,7 +45,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
+        public async Task<IActionResult> Register([FromBody] RegisterUserModel registerUser, string role)
         {
             var response = await _identityService.RegisterUser(registerUser, role);
 
@@ -55,7 +55,7 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel) 
+        public async Task<IActionResult> Login([FromBody] UserLoginModel loginModel) 
         {
             var user = await _userManager.FindByNameAsync(loginModel.Username);
 

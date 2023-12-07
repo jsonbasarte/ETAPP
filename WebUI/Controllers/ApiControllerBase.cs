@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using ETAPP.WebUI.Filters;
 
 namespace WebUI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiExceptionFilter]
     [ApiController]
     public class ApiControllerBase : ControllerBase
     {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Infrastructure.Identity.Models.SignUp;
+namespace ETAPP.Application.Common.Models.SignUp;
 
-public class RegisterUser
+public class RegisterUserModel
 {
     [Required(ErrorMessage ="Username is required")]
     public string Username { get; set; }

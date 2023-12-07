@@ -36,6 +36,6 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(d => d.Name).NotEmpty();
+        RuleFor(d => d.Name).NotEmpty().WithMessage("Name is required");
     }
 }

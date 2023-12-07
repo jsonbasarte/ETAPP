@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Identity.Models;
+﻿namespace Application.Common.Models;
 
 public class Response
 {
