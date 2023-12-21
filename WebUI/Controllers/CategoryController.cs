@@ -1,11 +1,13 @@
 ﻿using Application.Category.Commands;
 using Application.Category.Queries;
 using ETAPP.Application.Common.Models;
+using ETAPP.Application.Common.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers;
 
+[Authorize]
 public class CategoryController : ApiControllerBase
 {
     [HttpPost]

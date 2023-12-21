@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using ETAPP.Application.Common.Interfaces;
 using ETAPP.Application.Common.Mappings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ public class GetAllExpenseQueryHandler : IRequestHandler<GetAllExpenseQuery, IEn
     readonly IApplicationDbContext _dbContext;
     readonly IMapper _mapper;
 
-    public GetAllExpenseQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
+    public GetAllExpenseQueryHandler(IApplicationDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
     {
         _dbContext = dbContext;
         _mapper = mapper;

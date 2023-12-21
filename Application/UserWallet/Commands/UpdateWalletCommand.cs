@@ -32,8 +32,6 @@ public class UpdateWalletCommandHandler : IRequestHandler<UpdateWalletCommand, b
         wallet.Type = request.Type;
         wallet.UserId = request.UserId;
 
-        _dbContext.Wallet.Add(wallet);
-
         return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,12 +49,29 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
             TransactionType = request.TransactionType,
         };
 
-        userWallet.Balance = userWallet.Balance - request.Amount;
+        if (request.TransactionType == TransactionType.Expense)
+        {
+
+            userWallet.Balance = userWallet.Balance - request.Amount;
+
+        }
+        else if (request.TransactionType == TransactionType.Credit)
+        {
+            userWallet.Balance = userWallet.Balance + request.Amount;
+        }
 
         _dbContext.TransactionDetails.Add(expense);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return expense.Id;
+    }
+}
+
+public class CreateExpenseEntryCommandValidator : AbstractValidator<CreateExpenseEntryCommand>
+{
+    public CreateExpenseEntryCommandValidator() 
+    {
+        RuleFor(d => d.Description).NotEmpty().WithMessage("Description is required.");    
     }
 }

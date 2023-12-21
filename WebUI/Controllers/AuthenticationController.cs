@@ -75,7 +75,7 @@ namespace WebUI.Controllers
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Success" });
+                    return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "Success", StatusCode = 200 });
 
                 }
 

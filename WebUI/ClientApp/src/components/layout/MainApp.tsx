@@ -1,29 +1,45 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router";
-import httpHelper from "../../services/axios";
-import { useNavigate } from "react-router-dom";
+
+import { Layout, theme } from "antd";
+
+const { Content, Footer, Sider } = Layout;
+
+import SidebarMenu from "./SidebarMenu";
+import AppHeader from "./AppHeader";
+import useApp from "../../hooks/useApp";
 
 const MainApp = () => {
-  const navigate = useNavigate();
+  const { getCurrentUser } = useApp();
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
   useEffect(() => {
-    const getCurrentUser = async () => {
-      try {
-        const response = await httpHelper.get(
-          "/api/authentication/current-user"
-        );
-        console.log("response: ", response);
-      } catch (error) {
-        navigate("/login");
-      }
-    };
     getCurrentUser();
   }, []);
   return (
-    <div>
-      <div>header</div>
-      <div>navbar</div>
-      <Outlet />
-    </div>
+    <Layout>
+      <AppHeader></AppHeader>
+      <Content>
+        <Layout
+          style={{
+            padding: "24px 0",
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Sider style={{ background: colorBgContainer }} width={200}>
+            <SidebarMenu />
+          </Sider>
+          <Content style={{ padding: "0 24px", minHeight: 280 }}>
+            <Outlet />
+          </Content>
+        </Layout>
+      </Content>
+      <Footer style={{ textAlign: "center" }}>
+        Ant Design ©2023 Created by Ant UED
+      </Footer>
+    </Layout>
   );
 };
 

@@ -4,7 +4,7 @@ namespace Domain.Entities;
 
 public enum TransactionType
 {
-    Income = 1,
+    Credit = 1,
     Expense = 2,
 }
 

@@ -10,9 +10,9 @@ namespace WebUI.Controllers
     public class WalletController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<IEnumerable<GetAllWalletQueryDto>> GetAll()
+        public async Task<IEnumerable<GetAllWalletQueryDto>> GetAll(int userId)
         {
-            return await Mediator.Send(new GetAllWalletQuery());
+            return await Mediator.Send(new GetAllWalletQuery() { UserId = userId});
         }
 
         [HttpPost]

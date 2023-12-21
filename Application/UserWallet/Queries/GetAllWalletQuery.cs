@@ -1,14 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using ETAPP.Application.Common.Interfaces;
 using ETAPP.Application.Common.Mappings;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UserWallet.Queries;
 
@@ -22,14 +17,16 @@ public class GetAllWalletQueryDto : IMapFrom<Wallet>
     public string TypeName { get; set; }
 }
 
-public class GetAllWalletQuery : IRequest<IEnumerable<GetAllWalletQueryDto>> {}
+public class GetAllWalletQuery : IRequest<IEnumerable<GetAllWalletQueryDto>> {
+    public int UserId { get; set; }
+}
 
 public class GetAllWalletQueryHandler : IRequestHandler<GetAllWalletQuery, IEnumerable<GetAllWalletQueryDto>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetAllWalletQueryHandler(IApplicationDbContext dbContext, IMapper mapper)
+    public GetAllWalletQueryHandler(IApplicationDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
@@ -37,15 +34,17 @@ public class GetAllWalletQueryHandler : IRequestHandler<GetAllWalletQuery, IEnum
 
     public async Task<IEnumerable<GetAllWalletQueryDto>> Handle(GetAllWalletQuery request, CancellationToken cancellationToken)
     {
-        var result = await _dbContext.Wallet.ProjectToListAsync<GetAllWalletQueryDto>(_mapper.ConfigurationProvider);
+        var result = await _dbContext.Wallet
+                .Where(d => d.UserId == request.UserId)
+                    .ProjectToListAsync<GetAllWalletQueryDto>(_mapper.ConfigurationProvider);
 
-        var list = new List<GetAllWalletQueryDto>();
+        //var list = new List<GetAllWalletQueryDto>();
 
-        foreach (var item in result)
-        {
-            var type = (WalletType)item.Type;
-            list.Add(new GetAllWalletQueryDto() { Id = item.Id, Balance = item.Balance, Name = item.Name, TypeName = type.ToString() });
-        }
+        //foreach (var item in result)
+        //{
+        //    var type = (WalletType)item.Type;
+        //    list.Add(new GetAllWalletQueryDto() { Id = item.Id, Balance = item.Balance, Name = item.Name, TypeName = type.ToString() });
+        //}
         return result;
     }
 }
