@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const httpHelper = axios.create({
-//   baseURL: window.location.hostname + '/api',
-  timeout: 60000,
+  baseURL: '/api',
   // headers: {'X-Custom-Header': 'foobar'}
 });
 

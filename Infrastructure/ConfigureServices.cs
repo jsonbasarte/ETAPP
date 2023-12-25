@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Identity;
+using ETAPP.Application.Common.Interfaces;
+using ETAPP.Infrastructure;
 
 namespace Infrastructure;
 
@@ -23,7 +25,6 @@ public static class ConfigureServices
                       builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
          services.AddDefaultIdentity<ApplicationUser>()
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();

@@ -3,6 +3,7 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using ETAPP.Application.Common.Behaviours;
+using ETAPP.Application.Common.Interfaces;
 
 namespace Application;
 

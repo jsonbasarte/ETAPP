@@ -17,34 +17,29 @@ public class GetAllWalletQueryDto : IMapFrom<Wallet>
     public string TypeName { get; set; }
 }
 
-public class GetAllWalletQuery : IRequest<IEnumerable<GetAllWalletQueryDto>> {
-    public int UserId { get; set; }
-}
+public class GetAllWalletQuery : IRequest<IEnumerable<GetAllWalletQueryDto>> {}
 
 public class GetAllWalletQueryHandler : IRequestHandler<GetAllWalletQuery, IEnumerable<GetAllWalletQueryDto>>
 {
     private readonly IApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IUserContext _userContext;
 
-    public GetAllWalletQueryHandler(IApplicationDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
+    public GetAllWalletQueryHandler(IApplicationDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService, IUserContext userContext)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _userContext = userContext;
     }
 
     public async Task<IEnumerable<GetAllWalletQueryDto>> Handle(GetAllWalletQuery request, CancellationToken cancellationToken)
     {
+        var userId = _userContext.UserId!.Value;
+
         var result = await _dbContext.Wallet
-                .Where(d => d.UserId == request.UserId)
+                .Where(d => d.UserId == userId)
                     .ProjectToListAsync<GetAllWalletQueryDto>(_mapper.ConfigurationProvider);
 
-        //var list = new List<GetAllWalletQueryDto>();
-
-        //foreach (var item in result)
-        //{
-        //    var type = (WalletType)item.Type;
-        //    list.Add(new GetAllWalletQueryDto() { Id = item.Id, Balance = item.Balance, Name = item.Name, TypeName = type.ToString() });
-        //}
         return result;
     }
 }

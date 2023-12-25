@@ -25,9 +25,14 @@ const items2: MenuProps["items"] = [{
   }]
 
 const SidebarMenu: React.FC = () => {
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+  };
+
   return (
     <Menu
       mode="inline"
+      onClick={onClick}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["sub1"]}
       style={{ height: "100%" }}

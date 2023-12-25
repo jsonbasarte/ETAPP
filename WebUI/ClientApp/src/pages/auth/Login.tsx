@@ -13,7 +13,7 @@ type FieldType = {
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const onFinish = async (values: any) => {
-    const response = await httpHelper.post("/api/authentication/login", {
+    const response = await httpHelper.post("/authentication/login", {
       username: values.username,
       password: values.password,
     });

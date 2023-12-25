@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,5 +27,13 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         category.Name = request.Name;
 
         return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
+    }
+}
+
+public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
+{
+    public UpdateCategoryCommandValidator()
+    {
+        RuleFor(d => d.Name).NotNull().NotEmpty().WithMessage("Name is Required");
     }
 }

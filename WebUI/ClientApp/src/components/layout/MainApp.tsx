@@ -10,13 +10,17 @@ import AppHeader from "./AppHeader";
 import useApp from "../../hooks/useApp";
 
 const MainApp = () => {
+
   const { getCurrentUser } = useApp();
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
   useEffect(() => {
     getCurrentUser();
   }, []);
+  
   return (
     <Layout>
       <AppHeader></AppHeader>

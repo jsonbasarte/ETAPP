@@ -1,14 +1,13 @@
-import httpHelper from "../services/axios";
 import { useNavigate } from "react-router-dom";
+import { getCurrentAuthUser } from "../services/auth/auth";
 
 const useApp = () => {
+  
     const navigate = useNavigate();
+
     const getCurrentUser = async () => {
         try {
-          const response = await httpHelper.get(
-            "/api/authentication/current-user"
-          );
-          console.log("response: ", response);
+          await getCurrentAuthUser();
         } catch (error) {
           navigate("/login");
         }
