@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { Outlet } from "react-router";
 
 import { Layout, theme } from "antd";
@@ -36,7 +36,9 @@ const MainApp = () => {
             <SidebarMenu />
           </Sider>
           <Content style={{ padding: "0 24px", minHeight: 280 }}>
+            <Suspense fallback={ <h1>Error</h1> }>
             <Outlet />
+            </Suspense>
           </Content>
         </Layout>
       </Content>

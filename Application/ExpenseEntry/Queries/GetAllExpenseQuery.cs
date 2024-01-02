@@ -23,18 +23,23 @@ public class GetAllExpenseQuery : IRequest<IEnumerable<ExpenseDto>>{}
 
 public class GetAllExpenseQueryHandler : IRequestHandler<GetAllExpenseQuery, IEnumerable<ExpenseDto>>
 {
-    readonly IApplicationDbContext _dbContext;
-    readonly IMapper _mapper;
+    private readonly IApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
+    private readonly IUserContext _userContext;
 
-    public GetAllExpenseQueryHandler(IApplicationDbContext dbContext, IMapper mapper, ICurrentUserService currentUserService)
+    public GetAllExpenseQueryHandler(IApplicationDbContext dbContext, IMapper mapper, IUserContext userContext)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _userContext = userContext;
     }
 
     public async Task<IEnumerable<ExpenseDto>> Handle(GetAllExpenseQuery request, CancellationToken cancellationToken)
     {
-        var result = await _dbContext.TransactionDetails.ProjectToListAsync<ExpenseDto>(_mapper.ConfigurationProvider);
+        var userId = _userContext.UserId!.Value;
+
+        var result = await _dbContext.TransactionDetails.Where(trans => trans.UserId == userId)
+            .ProjectToListAsync<ExpenseDto>(_mapper.ConfigurationProvider);
 
         var list = new List<ExpenseDto>();
         

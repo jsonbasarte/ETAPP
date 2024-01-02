@@ -14,7 +14,7 @@ const AppHeader = () => {
         <a
           onClick={async () => {
             const response = await httpHelper.post(
-              "/api/authentication/logout"
+              "/authentication/logout"
             );
             if (response.status === 200) navigate("/login", { replace: true });
             console.log("response: ", response);
