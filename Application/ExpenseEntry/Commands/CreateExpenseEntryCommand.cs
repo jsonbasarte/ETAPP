@@ -30,11 +30,6 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
 
     public async Task<int> Handle(CreateExpenseEntryCommand request, CancellationToken cancellationToken)
     {
-        //IQueryable<Wallet> q = _dbContext.Wallet;
-
-        //q = q.Where(w => w.UserId == request.UserId);
-
-        //q = q.Where(w => w.Id == request.WalletId);
 
      var userWallet = await _dbContext.Wallet.FirstAsync(w => w.UserId == request.UserId && w.Id == request.WalletId);
 
@@ -51,9 +46,7 @@ public class CreateExpenseEntryCommandHandler : IRequestHandler<CreateExpenseEnt
 
         if (request.TransactionType == TransactionType.Expense)
         {
-
             userWallet.Balance = userWallet.Balance - request.Amount;
-
         }
         else if (request.TransactionType == TransactionType.Credit)
         {

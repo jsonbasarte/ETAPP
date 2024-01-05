@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using ETAPP.Application.Common.Interfaces;
 using MediatR;
 
 namespace Application.UserWallet.Commands;
@@ -7,7 +8,6 @@ namespace Application.UserWallet.Commands;
 public class CreateWalletCommand : IRequest<int>
 {
     public decimal Balance { get; set; }
-    public int UserId { get; set; }
     public string Name { get; set; }
     public WalletType Type { get; set; }
 }
@@ -15,18 +15,22 @@ public class CreateWalletCommand : IRequest<int>
 public class CreateWalletCommandHandler : IRequestHandler<CreateWalletCommand, int>
 {
     private readonly IApplicationDbContext _dbContext;
+    private readonly IUserContext _userContext;
 
-    public CreateWalletCommandHandler(IApplicationDbContext dbContext)
+    public CreateWalletCommandHandler(IApplicationDbContext dbContext, IUserContext userContext)
     {
         _dbContext = dbContext;
+        _userContext = userContext;
     }
 
     public async Task<int> Handle(CreateWalletCommand request, CancellationToken cancellationToken)
     {
+        var userId = _userContext.UserId!.Value;
+
         var wallet = new Wallet
         {
+            UserId = userId,
             Balance = request.Balance,
-            UserId = request.UserId,
             Name = request.Name,
             Type = request.Type
         };
