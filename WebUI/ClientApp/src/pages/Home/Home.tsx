@@ -1,21 +1,18 @@
 import { useHome } from "./hook/useHome";
 import {
-  Col,
-  Row,
   Statistic,
   Flex,
-  Card,
-  Space,
   Table,
   Tag,
   Typography,
 } from "antd";
-import { WalletType, TransactionType } from "./hook/useHome";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import { WalletType, TransactionType } from "./hook/useHome";
 const { Title, Link } = Typography;
 const baseStyle: React.CSSProperties = {
   width: "25%",
-  height: 54,
+  borderRadius: 10
 };
 interface DataType {
   key: string;
@@ -92,14 +89,14 @@ const Home = () => {
         <Title level={3}>Wallet</Title>
         <Flex vertical={false} gap={10}>
           {wallets.map((wallet: WalletType, i) => (
-            <div key={i} style={{ ...baseStyle }}>
-              <Statistic title={wallet.name} value={wallet.balance} />
+            <div key={i} style={{ ...baseStyle, background: "#0050b3", padding: 10 }}>
+              <Statistic  title={<div style={{ color: "white", display: "flex", justifyContent: "space-between" }}>{wallet.name}<PlusCircleOutlined/></div>} value={wallet.balance}  valueStyle={{ color: 'white' }} />
             </div>
           ))}
         </Flex>
       </Flex>
       <Flex vertical gap={10}>
-        <Title level={3}>Transactions</Title>
+        <Title level={3}>Recent Transaction</Title>
         <Table columns={columns} dataSource={transactions} />
       </Flex>
     </Flex>
