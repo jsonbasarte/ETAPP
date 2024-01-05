@@ -5,6 +5,7 @@ export const useWallet = () => {
 
   const getWallets = useWalletStore((state: IWalletStore) => state.getAllWallet);
   const createWallet = useWalletStore((state: IWalletStore) => state.createNewWallet)
+  const deleteWallet = useWalletStore((state: IWalletStore) => state.deleteWallet)
   const wallets = useWalletStore((state: IWalletStore) => state.wallets);
 
   useEffect(() => {
@@ -15,5 +16,6 @@ export const useWallet = () => {
     wallets,
     getWallets,
     createWallet,
+    deleteWallet,
   };
 };

@@ -1,7 +1,11 @@
 import { create } from "zustand";
-import { getAllWallets, createWallet } from "../../services/wallet";
+import {
+  getAllWallets,
+  createWallet,
+  deleteWallet,
+} from "../../services/wallet";
 
-type WalletType = {
+export type WalletType = {
   balance: number;
   id: number;
   name: string;
@@ -19,6 +23,7 @@ export interface IWalletStore {
   wallets: WalletType[];
   getAllWallet: () => void;
   createNewWallet: (params: CreateWalletType) => any;
+  deleteWallet: (params: number) => any;
 }
 
 export const useWalletStore = create<IWalletStore>((set) => ({
@@ -29,6 +34,10 @@ export const useWalletStore = create<IWalletStore>((set) => ({
   },
   createNewWallet: async (params: CreateWalletType) => {
     const response = await createWallet(params);
+    return response;
+  },
+  deleteWallet: async (id: number) => {
+    const response = await deleteWallet(id);
     return response;
   },
 }));

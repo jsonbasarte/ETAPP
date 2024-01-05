@@ -2,30 +2,45 @@ import { useState } from "react";
 import { Flex, Typography, Table, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { WalletType, useWallet } from "./hook/useWallet";
+import { useWallet } from "./hook/useWallet";
+import { WalletType } from "../../store/wallet/Wallet";
 import CreateUpdateWallet from "./modal/CreateUpdateWallet";
-
-const columns: ColumnsType<WalletType> = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    key: "type",
-  },
-  {
-    title: "Balance",
-    key: "balance",
-    dataIndex: "balance",
-  },
-];
 
 const Wallet = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { wallets } = useWallet();
+  const { wallets, deleteWallet, getWallets } = useWallet();
+  const deleteUserWallet = async (id: number) => {
+    const response = await deleteWallet(id);
+    getWallets();
+    console.log(response);
+  };
+  const columns: ColumnsType<WalletType> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Balance",
+      key: "balance",
+      dataIndex: "balance",
+    },
+    {
+      key: "action",
+      render: (_, item) => {
+        return <a onClick={() => {
+          if (confirm("Are you sure you want to delete this wallet?")) {
+            deleteUserWallet(item.id)
+          }
+        }}>Delete</a>;
+      },
+    },
+  ];
   return (
     <Flex vertical>
       <Flex vertical gap={10}>
@@ -41,7 +56,10 @@ const Wallet = () => {
         </Flex>
         <Table columns={columns} dataSource={wallets} />
       </Flex>
-      <CreateUpdateWallet isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <CreateUpdateWallet
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </Flex>
   );
 };
