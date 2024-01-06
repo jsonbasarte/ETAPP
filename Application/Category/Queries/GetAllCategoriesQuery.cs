@@ -6,7 +6,6 @@ using ETAPP.Application.Common.Models;
 using ETAPP.Domain.Entities;
 using MediatR;
 
-
 namespace Application.Category.Queries;
 
 public class CategoryDto : IMapFrom<Categories>
