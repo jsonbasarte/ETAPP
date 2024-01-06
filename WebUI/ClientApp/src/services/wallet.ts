@@ -10,7 +10,6 @@ type CreateWalletType = {
 
 export const getAllWallets = () => httpHelper.get(baseUrl);
 
-export const createWallet = (params: CreateWalletType) =>
-  httpHelper.post(baseUrl, params);
+export const createWallet = (params: CreateWalletType) => httpHelper.post(baseUrl, params);
 
 export const deleteWallet = (id: number) => httpHelper.delete(baseUrl, { data: { id } });

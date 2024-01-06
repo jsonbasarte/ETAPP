@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Flex, Table, Tag, Typography, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { TransactionType } from "./hook/useTransaction";
 import { useTransaction } from "./hook/useTransaction";
+import CreateUpdateTransaction from "./dialog/CreateUpdateTransaction";
 
 const columns: ColumnsType<TransactionType> = [
   {
@@ -41,6 +43,8 @@ const columns: ColumnsType<TransactionType> = [
 ];
 
 const Transaction = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const { transactions } = useTransaction();
   return (
     <Flex vertical>
@@ -49,13 +53,18 @@ const Transaction = () => {
           <Typography.Title level={3}>Transaction</Typography.Title>
           <Button
             type="primary"
-            shape="circle"
             icon={<PlusOutlined />}
-            size="large"
-          />
+            onClick={() => setIsModalOpen(true)}
+          >
+            Create
+          </Button>
         </Flex>
         <Table columns={columns} dataSource={transactions} />
       </Flex>
+      <CreateUpdateTransaction
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </Flex>
   );
 };

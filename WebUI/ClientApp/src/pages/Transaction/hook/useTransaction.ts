@@ -11,6 +11,7 @@ export type TransactionType = {
 }
 
 export const useTransaction = () => {
+    
     const [transactions, setTransaction] = useState<TransactionType[]>([]);
 
     const getTransactions = async () => {
