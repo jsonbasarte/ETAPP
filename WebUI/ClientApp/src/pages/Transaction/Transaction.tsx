@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Flex, Table, Tag, Typography, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { TransactionType } from "./hook/useTransaction";
+import { TransactionType } from "../../services/transaction";
 import { useTransaction } from "./hook/useTransaction";
 import CreateUpdateTransaction from "./dialog/CreateUpdateTransaction";
 
@@ -45,7 +45,7 @@ const columns: ColumnsType<TransactionType> = [
 const Transaction = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { transactions } = useTransaction();
+  const { transaction } = useTransaction();
   return (
     <Flex vertical>
       <Flex vertical gap={10}>
@@ -59,7 +59,7 @@ const Transaction = () => {
             Create
           </Button>
         </Flex>
-        <Table columns={columns} dataSource={transactions} />
+        <Table columns={columns} dataSource={transaction} />
       </Flex>
       <CreateUpdateTransaction
         isModalOpen={isModalOpen}

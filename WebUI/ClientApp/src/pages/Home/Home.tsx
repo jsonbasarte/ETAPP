@@ -1,26 +1,13 @@
 import { useHome } from "./hook/useHome";
-import {
-  Statistic,
-  Flex,
-  Table,
-  Tag,
-  Typography,
-} from "antd";
+import { Statistic, Flex, Table, Tag, Typography } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { WalletType, TransactionType } from "./hook/useHome";
-const { Title, Link } = Typography;
+const { Title } = Typography;
 const baseStyle: React.CSSProperties = {
   width: "25%",
-  borderRadius: 10
+  borderRadius: 10,
 };
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
 
 const columns: ColumnsType<TransactionType> = [
   {
@@ -45,8 +32,6 @@ const columns: ColumnsType<TransactionType> = [
     dataIndex: "walletName",
     render: (text) => (
       <>
-        {/* let color = tag.length > 5 ? 'geekblue' : 'green'; */}
-
         <Tag color={"green"}>{text.toUpperCase()}</Tag>
       </>
     ),
@@ -58,29 +43,6 @@ const columns: ColumnsType<TransactionType> = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
 const Home = () => {
   const { wallets, transactions } = useHome();
   return (
@@ -88,9 +50,27 @@ const Home = () => {
       <Flex vertical>
         <Title level={3}>Wallet</Title>
         <Flex vertical={false} gap={10}>
-          {wallets.map((wallet: WalletType, i) => (
-            <div key={i} style={{ ...baseStyle, background: "#0050b3", padding: 10 }}>
-              <Statistic  title={<div style={{ color: "white", display: "flex", justifyContent: "space-between" }}>{wallet.name}<PlusCircleOutlined/></div>} value={wallet.balance}  valueStyle={{ color: 'white' }} />
+          {wallets.map((wallet: WalletType) => (
+            <div
+              key={wallet.id}
+              style={{ ...baseStyle, background: "#0050b3", padding: 10 }}
+            >
+              <Statistic
+                title={
+                  <div
+                    style={{
+                      color: "white",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {wallet.name}
+                    <PlusCircleOutlined />
+                  </div>
+                }
+                value={wallet.balance}
+                valueStyle={{ color: "white" }}
+              />
             </div>
           ))}
         </Flex>

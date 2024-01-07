@@ -1,29 +1,16 @@
-import { useEffect, useState } from "react"
-import { getAllTransaction } from "../../../services/transaction"
-import { ResponseStatuses } from "../../../utils/Statuses"
+import { useEffect } from "react"
+import { ITransactionStore, useTransactionStore } from "../../../store/transaction/Transaction"
 
-export type TransactionType = {
-    description: string;
-    date: string;
-    type: string;
-    walletName: string;
-    amount: number;
-}
 
 export const useTransaction = () => {
-    
-    const [transactions, setTransaction] = useState<TransactionType[]>([]);
-
-    const getTransactions = async () => {
-        const response = await getAllTransaction();
-        if (response.status === ResponseStatuses.OK) setTransaction(response.data);
-    }
+    const transaction = useTransactionStore((state: ITransactionStore) => state.transaction);
+    const getAllTransaction = useTransactionStore((state: ITransactionStore) => state.getAllTransaction);
 
     useEffect(() => {
-        getTransactions();
+        getAllTransaction();
     },[]);
 
     return {
-        transactions
+        transaction
     }
 }

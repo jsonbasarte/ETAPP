@@ -1,12 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { Button, Modal, Form, Input, Select, Flex } from "antd";
-import {
-  userCreateUpdateTransaction,
-  FieldType,
-} from "../hook/useCreateUpdateTransaction";
+import { userCreateUpdateTransaction } from "../hook/useCreateUpdateTransaction";
 import { WalletType } from "../../../store/wallet/Wallet";
 import { useCategories } from "../../Categories/hook/useCategories";
 import { useWallet } from "../../Wallet/hook/useWallet";
+import { CreditCardFilled, WalletFilled } from "@ant-design/icons";
 
 enum TransactionType {
   Credit = 1,
@@ -20,7 +18,12 @@ type CreateUpdateTransactionType = {
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
-
+export type FieldType = {
+  description: string;
+  amount: number;
+  categoryId: number;
+  walletId: number;
+};
 const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
   isModalOpen,
   setIsModalOpen,
@@ -29,8 +32,17 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
   const { getWallets } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { onFinish, save, form, wallet, transactionType, setTransactionType } =
+  const { save, form, wallet, transactionType, setTransactionType, createTransaction } =
     userCreateUpdateTransaction();
+
+  const onFinish = async (values: FieldType) => {
+    const response = await createTransaction({ ...values, transactionType });
+    if (typeof response.data === 'number') {
+        getAllCategories();
+        handleClose();
+    }
+    console.log("response: ", response);
+  };
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -58,8 +70,12 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
       title={title}
       open={isOpen}
       onOk={save}
+      width={transactionType ? 500 : 300}
       onCancel={handleClose}
-      afterClose={() => setTransactionType(null)}
+      afterClose={() => {
+        setTransactionType(null);
+        form.resetFields();
+      }}
       footer={
         transactionType ? (
           <>
@@ -79,18 +95,30 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
             flex={1}
             justify="center"
             align="center"
+            vertical
+            className="cursor-pointer"
             onClick={() => setTransactionType(TransactionType.Credit)}
             style={{ height: 80 }}
           >
+            <CreditCardFilled
+              className="text-primary"
+              style={{ fontSize: "3em" }}
+            />
             Credit
           </Flex>
           <Flex
             flex={1}
             justify="center"
             align="center"
+            vertical
+            className="cursor-pointer"
             onClick={() => setTransactionType(TransactionType.Expense)}
             style={{ height: 80 }}
           >
+            <WalletFilled
+              className="text-primary"
+              style={{ fontSize: "3em" }}
+            />
             Expense
           </Flex>
         </Flex>
@@ -135,11 +163,14 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
           </Form.Item>
           <Form.Item
             label="Category"
+            name="categoryId"
             rules={[{ required: true, message: "Category is required" }]}
           >
             <Select>
               {categories.map((prop: { name: string; id: number }) => (
-                <Select.Option value={prop.id}>{prop.name}</Select.Option>
+                <Select.Option value={prop.id} key={prop.id}>
+                  {prop.name}
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>

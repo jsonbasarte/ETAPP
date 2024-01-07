@@ -30,7 +30,7 @@ const Wallet = () => {
       dataIndex: "balance",
     },
     {
-      title: "Action",
+      title: () => <div className="text-right">Action</div>,
       key: "action",
       render: (_, item) => {
         return <div style={{ display: "flex", justifyContent: "flex-end" }}>
