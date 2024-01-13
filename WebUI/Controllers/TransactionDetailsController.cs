@@ -1,14 +1,12 @@
 ﻿using Application.ExpenseEntry.Commands;
 using Application.ExpenseEntry.Queries;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
 {
-    //[Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
     public class TransactionDetailsController : ApiControllerBase
     {
         [HttpPost]
@@ -17,10 +15,16 @@ namespace WebUI.Controllers
             return await Mediator.Send(command);
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IEnumerable<ExpenseDto>> GetAll()
         {
             return await Mediator.Send(new GetAllExpenseQuery()); ;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ExpenseDetailsDto> GetById(int id)
+        {
+            return await Mediator.Send(new GetExpenseByIdQuery { Id = id });
         }
 
         [HttpPut]
