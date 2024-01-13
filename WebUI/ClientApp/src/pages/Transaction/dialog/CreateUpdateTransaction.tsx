@@ -3,6 +3,7 @@ import { Button, Modal, Form, Input, Select, Flex } from "antd";
 import { userCreateUpdateTransaction } from "../hook/useCreateUpdateTransaction";
 import { WalletType } from "../../../store/wallet/Wallet";
 import { useCategories } from "../../Categories/hook/useCategories";
+import { useTransaction } from "../hook/useTransaction";
 import { useWallet } from "../../Wallet/hook/useWallet";
 import { CreditCardFilled, WalletFilled } from "@ant-design/icons";
 
@@ -29,16 +30,18 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
   setIsModalOpen,
 }) => {
   const { getAllCategories, categories } = useCategories();
+  const { getAllTransaction } = useTransaction();
   const { getWallets } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { save, form, wallet, transactionType, setTransactionType, createTransaction } =
+  const { save, form, wallet, transactionType, setTransactionType, createTransaction, transactionDetails } =
     userCreateUpdateTransaction();
 
   const onFinish = async (values: FieldType) => {
     const response = await createTransaction({ ...values, transactionType });
-    if (typeof response.data === 'number') {
-        getAllCategories();
+    console.log(response)
+    if (typeof response === 'number') {
+        getAllTransaction();
         handleClose();
     }
     console.log("response: ", response);
@@ -56,6 +59,13 @@ const CreateUpdateTransaction: FC<CreateUpdateTransactionType> = ({
     getAllCategories();
     getWallets();
   }, []);
+
+  useEffect(() => {
+    if (transactionDetails) {
+      setTransactionType(transactionDetails.typeId);
+    }
+    console.log('transactionDetails: ', transactionDetails)
+  }, [transactionDetails])
 
   const title =
     transactionType === null

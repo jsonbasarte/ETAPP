@@ -8,6 +8,7 @@ export type TransactionType = {
     type: string;
     walletName: string;
     amount: number;
+    id: number;
 }
 export type CreateTransactionType = {
     description: string;
@@ -21,7 +22,9 @@ export type UpdateTransactionType = CreateTransactionType & {
     id: number;
 }
 
-export const getAllTransaction = () => httpHelper.get(baseUrl);
+export const getAllTransaction = () => httpHelper.get(`${baseUrl}/all`);
+
+export const getTransactionById = (id: number) => httpHelper.get(`${baseUrl}/${id}`);
 
 export const createTransaction = (params: CreateTransactionType) => httpHelper.post(baseUrl, params);
 
